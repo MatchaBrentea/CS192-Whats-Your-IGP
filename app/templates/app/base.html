@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+	.navbar-custom{
+		background-color: #141d25;
+		background-image: none;
+		background-repeat: no-repeat;
+	}
+	</style>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+	<link rel="stylesheet" type="text/css" href="{% static 'app/main.css' %}">
+
+	<link rel="shortcut icon" type="image/x-icon" href="{%static 'app/icon.jpg' %}" />
+
+ 	{% if page %}
+ 		<title>What's Your IGP? - {{ page }} </title>
+	{% else %}
+		<title>What's Your IGP?</title>
+	{% endif %}
+</head>
+
+<header class="site-header">
+	<nav class="navbar navbar-expand-md navbar-custom fixed-top">
+		<div class="container">
+			<h3 style = "color:white; font-size:30px">WHAT'S YOUR IGP?</h3>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarToggle">
+				<div class="navbar-nav mr-auto">
+					<a class="nav-item nav-link" href="{% url 'app-home' %}" style = "color:#ffffff"><i class="fa fa-fw fa-home"></i>Home</a>
+
+					<a class="nav-item nav-link" href="{% url 'app-igps' %}" style = "color:#ffffff"><i class="fa fa-fw fa-shopping-cart"></i>IGPs</a>
+
+					<a class="nav-item nav-link" href="{% url 'app-orgs' %}" style = "color:#ffffff"><i class="fa fa-fw fa-heart"></i>Orgs</a>
+				</div>
+
+				<div class="navbar">
+					<i class="fa fa-fw fa-search"></i><input type="text" placeholder="Search..">
+				</div>
+
+	        <!-- Navbar Right Side -->
+				<div class="navbar-nav">
+					{% if user.is_authenticated %}
+						<a class="nav-item nav-link" href="{% url 'igp-create' %}" style = "color:#ffffff"><i class="fa fa-fw fa-plus"></i>New IGP</a>
+
+						<a class="nav-item nav-link" href="{% url 'org-create' %}" style = "color:#ffffff"><i class="fa fa-fw fa-plus"></i>New Org</a>
+
+						<a class="nav-item nav-link" href="{%  url 'profile' %}" style = "color:#ffffff"><i class="fa fa-fw fa-user"></i>Profile</a>
+						<a class="nav-item nav-link" href="{% url 'logout' %}" style = "color:#ffffff">Logout</a>
+					{% else %}
+						<a class="nav-item nav-link" href="{% url 'login' %}" style = "color:#ffffff"><i class="fa fa-fw fa-user"></i>Login</a>
+
+						<a class="nav-item nav-link" href="{%  url 'register' %}" style = "color:#ffffff">Register</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</nav>
+</header>
+
+<!-- <body style = "background-color:#98ff98"> -->
+<!-- <body style = "background-image:url({% static "app/1.jpg" %});"> -->
+<body>
+	<main role="main" class="container">
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}">
+					{{ message }}	
+				</div>
+			{% endfor %}
+		{% endif %}
+
+		{% block content %}{% endblock %}
+	</main>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

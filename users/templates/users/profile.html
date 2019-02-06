@@ -1,0 +1,10 @@
+{% extends "app/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<br/><br/><br/><br/><br/><br/><br/>
+	<article class="media content-section">
+		<div class="media-body">
+			<h1 style="font-size:100px; text-align:center">Hello {{ user.username }}!</h1>
+		</div>
+	</article>
+{% endblock content %}

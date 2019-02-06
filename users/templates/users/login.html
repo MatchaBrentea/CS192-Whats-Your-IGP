@@ -1,0 +1,41 @@
+{% extends "app/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+body {
+	background-image:url({% static "app/loginback.jpg" %});
+	background-size: cover;
+	background-attachment: fixed;
+}
+</style>
+<!-- <body style = "background-color:#ff9b0d"> -->
+</body>
+	<div class ="content-section" style="color:white;background-color: rgba(0,0,0,0.4)">
+		<form method="POST">
+			{% csrf_token %}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">
+					LOG-IN!
+				</legend>
+				{{ form|crispy }}
+			</fieldset>
+			<div class="form-group">
+				<button class="btn btn-outline-info" type="submit">
+					Log-in
+				</button>
+			</div>
+		</form>
+		<div class="border-top pt-3">
+			<small class="text-muted">
+				Need an account? 
+				<a class"ml-2" href="{% url 'register' %}"> Sign up now! </a>
+			</small>
+		</div>
+	</div>
+</html>
+
+{% endblock content %} 	
