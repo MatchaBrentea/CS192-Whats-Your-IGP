@@ -25,7 +25,45 @@
 # Asst. Prof. Ma. Rowena C. Solamo of the Department of Computer Science, College of Engineering, 
 # University of the Philippines, Diliman for the AY 2015-2016”.
 
-# ---------------------------------------------------------------------------------------------
+# =================================================================================
+
+# CODE HISTORY:
+# <1/26/2019>
+# 1) Code initialization
+# 2) License
+# 3) Main Functionality (Backend):
+#   a.  url calls
+
+# ---------------------------------------------------------------------------------
+
+# <2/08/2019>
+# 1)  Creation Date
+# 2)  Development Group
+# 3)  Client Group
+# 4)  Purpose
+# 5)  Methods
+
+# =================================================================================   
+
+# Creation Date: <1/26/2019>
+
+# =================================================================================
+
+# Development Group: What's Your IGP
+
+# =================================================================================
+
+# Client Group: What's Your IGP
+
+# =================================================================================
+
+# Purpose:
+# > The purpose of the project: "What's Your IGP," is for the fufillment of the course: "CS 192." The project
+# aims to centralize the Income Generated Projects (IGP's) online information of all existing organizations
+# associated with UP Diliman. It's objective is to offer convenience for both sellers and customers of IGP
+# to sell and gather information online.  
+
+# =================================================================================
 
 from django.shortcuts import render
 from django.views.generic import (

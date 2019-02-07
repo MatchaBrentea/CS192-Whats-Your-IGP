@@ -46,13 +46,45 @@ CODE HISTORY:
 		> Background color customization: #141d25
 		> Text color customization: White
 
----------------------------------------------------------------------------------		
+---------------------------------------------------------------------------------
+
+<2/08/2019>
+1)	Creation Date
+2)	Development Group
+3) 	Client Group
+4) 	Purpose
+5)	Methods
+
+=================================================================================		
+
+Creation Date: <1/26/2019>
+
+=================================================================================
+
+Development Group: What's Your IGP
+
+=================================================================================
+
+Client Group: What's Your IGP
+
+=================================================================================
+
+Purpose:
+> The purpose of the project: "What's Your IGP," is for the fufillment of the course: "CS 192." The project
+aims to centralize the Income Generated Projects (IGP's) online information of all existing organizations
+associated with UP Diliman. It's objective is to offer convenience for both sellers and customers of IGP
+to sell and gather information online.  
+
+=================================================================================
  -->
  
 {% load static %}
 <!DOCTYPE html>
 <html>
 <head>
+	<!--.navbar custom 
+		2/02/2019
+		navbar style customization-->
 	<style>
 	.navbar-custom{
 		background-color: #141d25;
@@ -60,11 +92,15 @@ CODE HISTORY:
 		background-repeat: no-repeat;
 	}
 	</style>
-	<!-- Required meta tags -->
+	<!--meta tags
+		1/26/2019 
+		Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<!-- Bootstrap CSS -->
+	<!--Bootstrap CSS 
+		1/26/2019
+		Required Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -80,7 +116,13 @@ CODE HISTORY:
 	{% endif %}
 </head>
 
+<!--Navbar Main
+	1/26/2019
+	Navigation Bar in website-->
 <header class="site-header">
+	<!--Navbar Left
+		1/26/2019
+		Navigation Bar in website (left)-->
 	<nav class="navbar navbar-expand-md navbar-custom fixed-top">
 		<div class="container">
 			<h3 style = "color:white; font-size:30px">WHAT'S YOUR IGP?</h3>
@@ -100,7 +142,9 @@ CODE HISTORY:
 					<i class="fa fa-fw fa-search"></i><input type="text" placeholder="Search..">
 				</div>
 
-	        <!-- Navbar Right Side -->
+	        <!--Navbar Right
+	        	1/26/2019
+	        	Navigation Bar in website (right)-->
 				<div class="navbar-nav">
 					{% if user.is_authenticated %}
 						<a class="nav-item nav-link" href="{% url 'igp-create' %}" style = "color:#ffffff"><i class="fa fa-fw fa-plus"></i>New IGP</a>
@@ -120,9 +164,10 @@ CODE HISTORY:
 	</nav>
 </header>
 
-<!-- <body style = "background-color:#98ff98"> -->
-<!-- <body style = "background-image:url({% static "app/1.jpg" %});"> -->
 <body>
+	<!--Alert message
+		1/26/2019
+		Alert message tags-->
 	<main role="main" class="container">
 		{% if messages %}
 			{% for message in messages %}
@@ -134,7 +179,9 @@ CODE HISTORY:
 
 		{% block content %}{% endblock %}
 	</main>
-
+	<!--Scripts
+		1/26/2019
+		Required scripts-->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
