@@ -41,36 +41,36 @@ CODE HISTORY:
 
 {% block content %}
 
-	<br/><br/><br/>
-	<article class="media content-section">
-		<div class="media-body">
-			<div class="article-metadata" style="background-color:#dedcdb">
-				<h1 class="mr-2" style="font-size:50px">{{ object.name }}</h1>
-			</div>
-			<p class="article-title">{{ object.desc }}</p>
-		</div>
-	</article>
+     <br/><br/><br/>
+     <article class="media content-section">
+          <div class="media-body">
+               <div class="article-metadata" style="background-color:#dedcdb">
+                    <h1 class="mr-2" style="font-size:50px">{{ object.name }}</h1>
+               </div>
+               <p class="article-title">{{ object.desc }}</p>
+          </div>
+     </article>
 
 
-	<div class="article-metadata">
-			<div class="article-metadata">
-				<h2 class="mr-2" href="#">List of IGPs</h2>
-			</div>
-	</div>
+     <div class="article-metadata">
+               <div class="article-metadata">
+                    <h2 class="mr-2" href="#">List of IGPs</h2>
+               </div>
+     </div>
 
-	<div>
-		{% for i in org_igps %}
-			<article class="media content-section">
-				<div class="media-body">
-					<h3><a class="article-title" href="#">{{ i.item }}</a></h3>
-					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'igp-update' i.id %}" style="font-size:10px">Update</a>
-					<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'igp-delete' i.id %}" style="font-size:10px ">Delete</a>
-					<p class="article-content">{{ i.price }} PHP</p>
-					<p class="article-content" ><i>{{ i.itype }}</i></p>
-					<small class="text-muted">{{ i.date_posted|date }}</small>
-				</div>
-			</article>
-		{% endfor %}
-	</div>
+     <div>
+          {% for i in org_igps %}
+               <article class="media content-section">
+                    <div class="media-body">
+                         <h3><a class="article-title" href="#">{{ i.item }}</a></h3>
+                         <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'igp-update' i.id %}" style="font-size:10px">Update</a>
+                         <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'igp-delete' i.id %}" style="font-size:10px ">Delete</a>
+                         <p class="article-content">{{ i.price }} PHP</p>
+                         <p class="article-content" ><i>{{ i.itype }}</i></p>
+                         <small class="text-muted">{{ i.date_posted|date }}</small>
+                    </div>
+               </article>
+          {% endfor %}
+     </div>
 
 {% endblock content %}

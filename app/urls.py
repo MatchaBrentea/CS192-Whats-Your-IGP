@@ -67,17 +67,17 @@
 
 from django.urls import path
 from .views import (
-	IGPListView,  
-	IGPCreateView,
-	IGPDeleteView,
-	IGPUpdateView,
-	
-	ORGListView,
-	ORGDetailView,
-	ORGCreateView,
-	ORGUpdateView,
-	ORGDeleteView
-	)
+     IGPListView,  
+     IGPCreateView,
+     IGPDeleteView,
+     IGPUpdateView,
+     
+     ORGListView,
+     ORGDetailView,
+     ORGCreateView,
+     ORGUpdateView,
+     ORGDeleteView
+     )
 from . import views
 
 urlpatterns = [
