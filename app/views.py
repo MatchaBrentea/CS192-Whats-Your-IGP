@@ -82,7 +82,6 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import *
 
-
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -97,10 +96,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            if(user.profile.user_type=="Buyer"):
-                 return redirect('app/buyer_home')
-            else:
-                 return redirect('app-home')                 
+            return redirect('app-home')                 
     else:
         form = SignUpForm()
     return render(request, 'app/signup.html', {'form': form})
