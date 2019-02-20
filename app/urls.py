@@ -64,7 +64,8 @@
 # to sell and gather information online.  
 
 # =================================================================================
-
+from django.conf.urls import url
+#from mysite.core import views as core_views
 from django.urls import path
 from .views import (
 	IGPListView,  
@@ -81,7 +82,16 @@ from .views import (
 from . import views
 
 urlpatterns = [
+	#path('', views.signup, name="signup"),
+    #path('', views.login_view, name='home'),
+    #path('orgs/<int:pk>/', BuyerIGP.as_view(), name='buyer_orgigps_detail'),
+    path('orgs/<int:pk>/', views.BuyerIGP, name='buyer_orgigps_detail'),
     path('', views.home, name='app-home'),
+    path('buyer/profile/',views.profile,name='buyer_profile'),
+    path('buyer/igps/',views.list_igp,name='list_igp'),
+    path('buyer/orgs/',views.list_org,name='list_org'),
+    path('signup/', views.signup, name="signup"),
+    path('memsignup/', views.memsignup, name="memsignup"),
     path('igps/', IGPListView.as_view(), name='app-igps'),
     path('orgs/', ORGListView.as_view(), name='app-orgs'),
     path('orgs/<int:pk>/', ORGDetailView.as_view(), name='orgigps_detail'),
@@ -90,5 +100,7 @@ urlpatterns = [
     path('igps/<int:pk>/update/', IGPUpdateView.as_view(), name='igp-update'),
     path('orgs/new/', ORGCreateView.as_view(), name='org-create'),
     path('orgs/<int:pk>/delete/', ORGDeleteView.as_view(), name='org-delete'),
-    path('orgs/<int:pk>/update/', ORGUpdateView.as_view(), name='org-update')
+    path('orgs/<int:pk>/update/', ORGUpdateView.as_view(), name='org-update'),
+    #url(r'^signup/$', core_views.signup, name='signup'),
+    
 ]

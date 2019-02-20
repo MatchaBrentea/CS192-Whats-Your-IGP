@@ -23,18 +23,52 @@ SOFTWARE.
 
 “This is a course requirement for CS 192 Software Engineering II under the supervision of Asst. Prof. Ma. Rowena C. Solamo of the Department of Computer Science, College of Engineering, University of the Philippines, Diliman for the AY 2015-2016”.
 
+=================================================================================
+
+CODE HISTORY:
+<1/26/2019>
+1) Code initialization
+2) License
+3) Main Functionality (Backend):
+  a.  "About us" section
+
+--------------------------------------------------------------------------------
+
  -->
  
-{% extends "app/base.html" %}
-{% load crispy_forms_tags %}
+
+{% extends "app/base2.html" %}
+
 {% block content %}
-	<br/><br/><br/><br/><br/><br/><br/>
+
+	<br/><br/><br/>
 	<article class="media content-section">
 		<div class="media-body">
-			<h1 style="font-size:100px; text-align:center">Hello {{ user.username }}!</h1>
-			
-			<h1 style="font-size:100px; text-align:center">{{ user.profile.user_type }}</h1>
-			
+			<div class="article-metadata" style="background-color:#dedcdb">
+				<h1 class="mr-2" style="font-size:50px">{{ object.name }}</h1>
+			</div>
+			<p class="article-title">{{ object.desc }}</p>
 		</div>
 	</article>
+
+
+	<div class="article-metadata">
+			<div class="article-metadata">
+				<h2 class="mr-2" href="#">List of IGPs</h2>
+			</div>
+	</div>
+
+	<div>
+		{% for i in org_igps %}
+			<article class="media content-section">
+				<div class="media-body">
+					<h3><a class="article-title" href="#">{{ i.item }}</a></h3>
+					<p class="article-content">{{ i.price }} PHP</p>
+					<p class="article-content" ><i>{{ i.itype }}</i></p>
+					<small class="text-muted">{{ i.date_posted|date }}</small>
+				</div>
+			</article>
+		{% endfor %}
+	</div>
+
 {% endblock content %}

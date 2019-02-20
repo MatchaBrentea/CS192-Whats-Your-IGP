@@ -129,29 +129,22 @@ to sell and gather information online.
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarToggle">
-				<div class="navbar-nav mr-auto">
-					<a class="nav-item nav-link" href="{% url 'app-home' %}" style = "color:#ffffff"><i class="fa fa-fw fa-home"></i>Home</a>
-
-					<a class="nav-item nav-link" href="{% url 'app-igps' %}" style = "color:#ffffff"><i class="fa fa-fw fa-shopping-cart"></i>IGPs</a>
-
-					<a class="nav-item nav-link" href="{% url 'app-orgs' %}" style = "color:#ffffff"><i class="fa fa-fw fa-heart"></i>Orgs</a>
-				</div>
-
-				<div class="navbar">
-					<i class="fa fa-fw fa-search"></i><input type="text" placeholder="Search..">
-				</div>
+			
 
 	        <!--Navbar Right
 	        	1/26/2019
 	        	Navigation Bar in website (right)-->
 				<div class="navbar-nav">
-					{% if user.is_authenticated %}
-						<a class="nav-item nav-link" href="{% url 'igp-create' %}" style = "color:#ffffff"><i class="fa fa-fw fa-plus"></i>New IGP</a>
+						<a class="nav-item nav-link" href="{% url 'app-home' %}" style = "color:#ffffff"><i class="fa fa-fw fa-home"></i>Home</a>
 
-						<a class="nav-item nav-link" href="{%  url 'profile' %}" style = "color:#ffffff"><i class="fa fa-fw fa-user"></i>Profile</a>
-						
-						
+						<a class="nav-item nav-link" href="{% url 'list_igp' %}" style = "color:#ffffff"><i class="fa fa-fw fa-shopping-cart"></i>IGPs</a>
+				<div class="navbar">
+					<i class="fa fa-fw fa-search"></i><input type="text" placeholder="Search..">
+				</div>
+						<a class="nav-item nav-link" href="{% url 'list_org' %}" style = "color:#ffffff"><i class="fa fa-fw fa-heart"></i>Orgs</a>
+			
+				{% if user.is_authenticated %}
+						<a class="nav-item nav-link" href="{%  url 'buyer_profile' %}" style = "color:#ffffff"><i class="fa fa-fw fa-user"></i>Profile</a>
 						<a class="nav-item nav-link" href="{% url 'logout' %}" style = "color:#ffffff">Logout</a>
 					{% else %}
 					
