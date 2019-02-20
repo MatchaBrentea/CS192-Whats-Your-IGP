@@ -64,7 +64,8 @@
 # to sell and gather information online.  
 
 # =================================================================================
-from django.conf.urls import url
+from django.conf.urls import url,include
+
 #from mysite.core import views as core_views
 from django.urls import path
 from .views import (
@@ -101,6 +102,8 @@ urlpatterns = [
     path('orgs/new/', ORGCreateView.as_view(), name='org-create'),
     path('orgs/<int:pk>/delete/', ORGDeleteView.as_view(), name='org-delete'),
     path('orgs/<int:pk>/update/', ORGUpdateView.as_view(), name='org-update'),
+    #(r'^ratings/', include('ratings.urls')),
+
     #url(r'^signup/$', core_views.signup, name='signup'),
     
 ]

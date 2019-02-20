@@ -52,6 +52,11 @@ def update_user_profile(sender, instance, created, **kwargs):
 class ORG(models.Model):
 	name = models.CharField(max_length=100, unique=True)
 	desc = models.TextField()
+	rating = models.ForeignKey('star_ratings.Rating', on_delete=models.CASCADE)
+	def save(self, *args, **kwargs):
+		if not self.rating:
+			self.rating = star_ratings.Rating.objects.create()
+		super(Post, self).save(*args, **kwargs)
 	def __str__(self):
 		return self.name
 	def get_absolute_url(self):
@@ -68,6 +73,11 @@ class IGP(models.Model):
 	itype = models.CharField(max_length=100)
 	price = models.FloatField(null=True, blank=True, default=None)
 	date_posted = models.DateTimeField(default=timezone.now)
+	rating = models.ForeignKey('star_ratings.Rating', on_delete=models.CASCADE)
+	def save(self, *args, **kwargs):
+		if not self.rating:
+			self.rating = star_ratings.Rating.objects.create()
+		super(Post, self).save(*args, **kwargs)
 	def __str__(self):
 		return self.item
 	def get_absolute_url(self):

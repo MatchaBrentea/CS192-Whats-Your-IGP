@@ -78,7 +78,11 @@ to sell and gather information online.
 {% block content %}
 	{% for i in igps %}
 	<!DOCTYPE html>
+{% load ratings %}
 	<html>
+	<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+		<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+		{% ratings i %}
 	<style>
 	body {
 		background-image:url({% static "app/loginback.jpg" %});
