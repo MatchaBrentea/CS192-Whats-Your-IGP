@@ -81,7 +81,12 @@ from django.shortcuts import render, redirect, redirect,get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import *
-
+#Method name: signup
+#Creation Date: February 18,2019
+#Purpose of routine: Signup a user that is not yet registered
+#Calling arguments: request
+#Required Files/Database table: forms.py,signup.html and models.py,home.html
+#Return value: user information saved.
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -100,7 +105,12 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'app/signup.html', {'form': form})
-
+#Method name: memsignup
+#Creation Date: February 18,2019
+#Purpose of routine: Calls a form after signing up as a seller for additional org info
+#Calling arguments: request
+#Required Files/Database table: forms.py,memsignup.html and models.py
+#Return value: orgmember information saved.
 def memsignup(request):
     if request.method == 'POST':
                form = Orgform(request.POST)
@@ -117,21 +127,44 @@ def memsignup(request):
     else:
                          form=Orgform()
     return render(request, 'app/memsignup.html', {'form': form})
-
+#Method name: profile
+#Creation Date: February 18,2019
+#Purpose of routine: renders the template for profile of a buyer
+#Calling arguments: request
+#Required Files/Database table: buyer_profile.html and models.py
+#Return value: Display profile information of user
 def profile(request):
      return render(request,'app/buyer_profile.html')
+#Method name: list_igp
+#Creation Date: February 18,2019
+#Purpose of routine: renders the template for list of igp of a buyer
+#Calling arguments: request
+#Required Files/Database table: buyer_igp.html and models.py
+#Return value: Displays list of available igp
 def list_igp(request):
      context = {
           'orgs': ORG.objects.all(),
           'igps': IGP.objects.all(),
      }
      return render(request,'app/buyer_igp.html', context)
+#Method name: list_org
+#Creation Date: February 18,2019
+#Purpose of routine: renders the template for list of org of a buyer
+#Calling arguments: request
+#Required Files/Database table: buyer_igp.html and models.py
+#Return value: Displays list of available org
 def list_org(request):
      context = {
           'orgs': ORG.objects.all(),
      }
      return render(request,'app/buyer_org.html', context)
 
+#Method name: home
+#Creation Date: 
+#Purpose of routine: renders the template for home for a user
+#Calling arguments: request
+#Required Files/Database table: buyer_home.html,home.html and models.py
+#Return value: Displays home depending on the user type.
 @login_required(login_url='login')
 def home(request):
      user = User.objects.get(username=request.user)
@@ -144,6 +177,12 @@ def home(request):
      }
      return render(request, 'app/home.html', context)
 
+#Method name: orgs
+#Creation Date: 
+#Purpose of routine: renders the template for list of orgs for a seller
+#Calling arguments: request
+#Required Files/Database table: org.html and models.py
+#Return value: Displays list of registered orgs
 def orgs(request):
      context = {
           'orgs': ORG.objects.all(),
