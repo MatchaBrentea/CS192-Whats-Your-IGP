@@ -168,6 +168,7 @@ class IGPListView(ListView):
 class IGPCreateView(LoginRequiredMixin, CreateView):
      model = IGP
      fields = ['item', 'org', 'itype', 'price']
+     success_url ='/app/igps/'
 
 class IGPDeleteView(LoginRequiredMixin, DeleteView):
      model = IGP
@@ -176,6 +177,7 @@ class IGPDeleteView(LoginRequiredMixin, DeleteView):
 class IGPUpdateView(LoginRequiredMixin, UpdateView):
      model = IGP
      fields = ['item', 'org', 'itype', 'price']
+     success_url ='/app/igps/'
 
 class ORGListView(ListView):
      model = ORG
@@ -191,9 +193,8 @@ class ORGDetailView(DetailView):
      def get_context_data(self, **kwargs):
           context = super().get_context_data(**kwargs)
           context['org_igps']=IGP.objects.filter(org_id=self.object.id)
-
           return context
-
+          
 class ORGCreateView(LoginRequiredMixin, CreateView):
      model = ORG
      fields = ['name', 'desc']
