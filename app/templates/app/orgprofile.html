@@ -25,17 +25,21 @@ SOFTWARE.
 
  -->
  
-{% extends "app/base2.html" %}
+{% extends "app/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-	<br/><br/><br/><br/><br/><br/><br/>
-	<article class="media content-section">
-		<div class="media-body">
-			
-			<h1 style="font-size:100px; text-align:center">Hello {{ user.username }}!</h1>
-			
-			<h1 style="font-size:100px; text-align:center">{{ user.profile.user_type }}</h1>
-			
-		</div>
-	</article>
+    <br/><br/><br/><br/><br/><br/><br/>
+    <article class="media content-section">
+        <div class="media-body">
+            <h1>Organization Profile</h1>
+            <h1>{{ name }}</h1>
+            <hr>
+            <p>Mobile: {{ mobile_number }}</p>
+            <p>Description: {{ description }}</p>
+            <p>Location: {{ location }}</p>
+
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'org-update' org.id %}" style="background-color:#ff9b0d;font-size:10px">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'org-delete' org.id %}" style="font-size:10px ">Delete</a>
+        </div>
+    </article>
 {% endblock content %}
