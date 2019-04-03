@@ -76,10 +76,25 @@ to sell and gather information online.
  -->
 
 {% extends 'app/base.html' %}
-
+{% load static %}
 {% block content %}
-  <h2>Organization Sign up</h2>
-  <a class="nav-item nav-link" href="{% url 'org-create' %}" style = "color:#ffffff"><i class="fa fa-fw fa-plus"></i>New ORG</a>
+<!DOCTYPE html>
+<html>
+<style>
+  body {
+  background-image:url({% static "app/loginback.jpg" %});
+  background-size: cover;
+  background-attachment: fixed;
+  }
+
+
+</style>
+<body>
+
+</body>
+</html>
+  <h2 style="color:white">Organization Sign up</h2>
+  <article class="media content-section" style="color:white;background-color: rgba(0,0,0,0.4)">
   <form method="post">
     {% csrf_token %}
     {% for field in form %}
@@ -95,8 +110,9 @@ to sell and gather information online.
       </p>
     {% endfor %}
 
-    <button type="submit">Proceed</button>
+   <button class="btn btn-outline-info" type="submit">Proceed</button>
   </form>
+</article>
 {% endblock %}
 
 

@@ -45,7 +45,7 @@
 # to sell and gather information online.  
 
 # =================================================================================
-
+from .models import ORG,IGP
 from . import models
 from django import forms
 from django.contrib.auth.models import User
@@ -68,12 +68,22 @@ class SignUpForm(UserCreationForm):
         fields = ('username','mobile_number','user_type','college', 'password1', 'password2' )
 
 class Orgform(forms.ModelForm):
-    org_name = forms.CharField(required=True, label="Organization", widget=forms.TextInput)
+    name = forms.CharField(required=True, label="Organization", widget=forms.TextInput)
+    description = forms.CharField(required=True, label="Description", widget=forms.TextInput)
     location = forms.CharField(required=True, label="Location", widget=forms.TextInput)
+    mobile_number = forms.CharField(required=True, label="Contact no", widget=forms.TextInput(attrs={'class': 'form-control form-group','placeholder': '+639999999999'}))
     class Meta:
-      model=User
-      fields=('org_name','location')
+      model=ORG
+      fields=('name','description','location','mobile_number')
 
+class Igpform(forms.ModelForm):
+    item = forms.CharField(required=True, label="item", widget=forms.TextInput)
+    itype = forms.CharField(required=True, label="itype", widget=forms.TextInput)
+    price = forms.CharField(required=True, label="price", widget=forms.TextInput)
+    class Meta:
+      model=IGP
+      fields=('item','itype','price')
+   
 class LoginForm(AuthenticationForm):
     username = forms.CharField(required=True, label="Username", widget=forms.TextInput(
         attrs={'class': 'form-control form-group',

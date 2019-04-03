@@ -90,9 +90,9 @@ to sell and gather information online.
   2/02/2019
   background style of page:"home"*/
 body {
-	background-image:url({% static "app/1a.jpg" %});
-	background-size: cover;
-	background-attachment: fixed;
+  background-image:url({% static "app/back2.jpg" %});
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 * {
@@ -276,7 +276,7 @@ img.hover-shadow {
     explore button style and function (pop-up modal image)-->
 <div class="row">
   <div class="column">
-    <img src="{% static "app/explorebutton.png" %}" style="width:50%;position:relative;top:550px; left: 500px;margin:auto; max-width:500px" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
+    <img src="{% static "app/explorebutton.png" %}" style="width:50%;position:relative;top:470px; left: 500px;margin:auto; max-width:500px" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
 </div>
 
 <!--close button 
@@ -315,28 +315,7 @@ img.hover-shadow {
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
 
-    <!--caption-container 
-        2/02/2019
-        caption container-->
-    <div class="caption-container">
-      <p id="caption"></p>
-    </div>
-
-    <!--about-buttons 
-        2/02/2019
-        buttons that corresponds to specific slide image -->
-    <div class="column">
-      <img class="demo cursor" src="{% static "app/sellbuttona.png" %}" style="width:400%" onclick="currentSlide(1)" alt="Sell">
-    </div>
-    <div class="column">
-      <img class="demo cursor" src="{% static "app/searchbuttona.png" %}" style="width:400%" onclick="currentSlide(2)" alt="Search">
-    </div>
-    <div class="column">
-      <img class="demo cursor" src="{% static "app/ratebuttona.png" %}" style="width:400%" onclick="currentSlide(3)" alt="Rate">
-    </div>
-    <div class="column">
-      <img class="demo cursor" src="{% static "app/relaxbuttona.png" %}" style="width:400%" onclick="currentSlide(4)" alt="Relax">
-    </div>
+    
   </div>
 </div>
 

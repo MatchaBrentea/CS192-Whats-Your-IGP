@@ -26,14 +26,35 @@ SOFTWARE.
  -->
  
 {% extends "app/base2.html" %}
-{% load crispy_forms_tags %}
+
+{% load static %}
 {% block content %}
+	<!DOCTYPE html>
+	<html>
+	<style>
+		body{
+		background-image:url({% static "app/loginback.jpg" %});
+		background-size: cover;
+		background-attachment: fixed;
+	}
+		.content-section{
+			background-color: rgba(0,0,0,0.4);
+			
+		}
+
+	</style>
+	<body>
+	
+	</body>
+	</html>
 	<br/><br/><br/><br/><br/><br/><br/>
 	<article class="media content-section">
 		<div class="media-body">
-			<h1 style="font-size:100px; text-align:center">Hello {{ user.username }}!</h1>
 			
-			<h1 style="font-size:100px; text-align:center">{{ user.profile.user_type }}</h1>
+			<h1 style="font-size:100px;color:white; text-align:center">Hello!</h1>
+			<h1 style="font-size:30px;color:#ffd40d; text-align:center">Name: {{ user.username }}</h1>
+			<h1 style="font-size:30px;color:#ffd40d; text-align:center">College: {{ user.profile.college}}</h1>
+			<h1 style="font-size:30px;color:#ffd40d; text-align:center">Number: {{ user.profile.mobile_number }}</h1>
 			
 		</div>
 	</article>

@@ -81,7 +81,7 @@ from .views import (
 	ORGDeleteView
 	)
 from . import views
-
+ 
 urlpatterns = [
 	#path('', views.signup, name="signup"),
     #path('', views.login_view, name='home'),
@@ -101,6 +101,10 @@ urlpatterns = [
     path('orgs/', ORGListView.as_view(), name='app-orgs'),
     path('buyer/igps/',views.list_igp,name='list_igp'),
     path('buyer/orgs/',views.list_org,name='list_org'),
+    path('buyer/org/',views.orgprofile,name='org_profile'),
     path('buyer/profile/',views.profile,name='buyer_profile'),
+    path('create/igp/',views.createigp,name='createigp'),
+    path('org/igp/',views.my_igp,name='my_igp'),
     
 ]
+  

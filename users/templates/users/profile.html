@@ -28,26 +28,12 @@ SOFTWARE.
 {% extends "app/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-{% load static %}
-</!DOCTYPE html>
-<html>
-
-<body>
-	<style>
-		body {
-	background-image:url({% static "app/loginback.jpg" %});
-	background-size: cover;
-	background-attachment: fixed;
-	}
-	</style>
-</body>
-</html>
 	<br/><br/><br/><br/><br/><br/><br/>
-	<article class="media content-section" style="background-color: rgba(0,0,0,0.4)">
+	<article class="media content-section">
 		<div class="media-body">
-			<h1 style="font-size:100px; text-align:center; color:white">Hello {{ user.username }}!</h1>
+			<h1 style="font-size:100px; text-align:center">Hello {{ user.username }}!</h1>
 			
-			<h1 style="font-size:50px; text-align:center; color:white">{{ user.profile.user_type }}</h1>
+			<h1 style="font-size:100px; text-align:center">{{ user.profile.user_type }}</h1>
 			
 		</div>
 	</article>

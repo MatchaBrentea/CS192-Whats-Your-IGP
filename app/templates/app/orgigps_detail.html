@@ -38,8 +38,22 @@ CODE HISTORY:
  
 
 {% extends "app/base.html" %}
-
+{% load static %}
 {% block content %}
+
+	<!DOCTYPE html>
+	<html>
+	<style>
+		body{
+			background-image:url({% static "app/loginback.jpg" %});
+			background-size: cover;
+			background-attachment: fixed;
+		}
+	</style>
+	<body>
+	
+	</body>
+	</html>
 
 	<br/><br/><br/>
 	<article class="media content-section">

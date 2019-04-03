@@ -73,7 +73,7 @@ from django.views.generic import (
      UpdateView,
      DeleteView
      )
-from .models import IGP, ORG
+from .models import IGP, ORG,Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -101,7 +101,11 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('app-home')                 
+            print(user.profile.user_type)
+            if(user.profile.user_type=="Buyer"):
+                return redirect('app-home')
+            else:
+                return redirect('memsignup')                 
     else:
         form = SignUpForm()
     return render(request, 'app/signup.html', {'form': form})
@@ -111,22 +115,61 @@ def signup(request):
 #Calling arguments: request
 #Required Files/Database table: forms.py,memsignup.html and models.py
 #Return value: orgmember information saved.
+
 def memsignup(request):
-    if request.method == 'POST':
+    if (request.method == 'POST'):
                form = Orgform(request.POST)
+               user = User.objects.get(username=request.user.username)
                if form.is_valid():
-                 user = form.save()
-                 user.refresh_from_db()  # load the profile instance created by the signal
-                 user.profile.org=form.cleaned_data.get('org_name')
-                 user.profile.location=form.cleaned_data.get('location')
-                 user.save()
-                 raw_password = form.cleaned_data.get('password1')
-                 user = authenticate(username=user.username, password=raw_password)
-                 login(request, user)
+                 org=form.save(commit=False)
+                 org.name=form.cleaned_data.get('name')
+                 org.user=user
+                 org.desc=form.cleaned_data.get('description')
+                 org.location=form.cleaned_data.get('location')
+                 org.mobile_number=form.cleaned_data.get('mobile_number')
+                 print(user.username)
+                 org.save()
                  return redirect('app-home')
     else:
-                         form=Orgform()
+                 form=Orgform()
     return render(request, 'app/memsignup.html', {'form': form})
+
+
+def createigp(request):
+    user = User.objects.get(username=request.user.username)
+    org=ORG.objects.filter(user=user).exists()
+    if (org):
+                         org=ORG.objects.get(user=user)
+    else:
+                         return redirect('memsignup')
+    if (request.method == 'POST'):
+               form = Igpform(request.POST)
+               
+               org=ORG.objects.get(user=user)
+               if form.is_valid():
+                 igp=form.save(commit=False)
+                 igp.item=form.cleaned_data.get('item')
+                 igp.org=org
+                 igp.itype=form.cleaned_data.get('itype')
+                 igp.price=form.cleaned_data.get('price')
+                 igp.image=form.cleaned_data.get('image')
+
+                 igp.save()
+                 return redirect('my_igp')
+    else:
+                 form=Igpform()
+    return render(request, 'app/memsignup.html', {'form': form})
+def my_igp(request):
+     user = User.objects.get(username=request.user.username)
+     org=ORG.objects.filter(user=user).exists()
+     if (org):
+        org=ORG.objects.get(user=user)
+     else:
+        return redirect('memsignup')
+     org=ORG.objects.get(user=user)
+     igp=IGP.objects.filter(org=org)
+     return render(request,'app/updateigp.html', {'igp':igp})
+
 #Method name: profile
 #Creation Date: February 18,2019
 #Purpose of routine: renders the template for profile of a buyer
@@ -134,7 +177,19 @@ def memsignup(request):
 #Required Files/Database table: buyer_profile.html and models.py
 #Return value: Display profile information of user
 def profile(request):
-     return render(request,'app/buyer_profile.html')
+    return render(request,'app/buyer_profile.html')
+def orgprofile(request):
+     user=User.objects.get(username=request.user)
+     user_instance = Profile.objects.get(user=user)
+     org=ORG.objects.filter(user=user).exists()
+     if (org):
+        org=ORG.objects.get(user=user)
+     else:
+        return redirect('memsignup')
+
+     context = {'org':org,'mobile_number':org.mobile_number,'name':org.name,'description':org.desc,'location':org.location}
+     return render(request,'app/orgprofile.html',context)
+
 #Method name: list_igp
 #Creation Date: February 18,2019
 #Purpose of routine: renders the template for list of igp of a buyer
@@ -169,6 +224,7 @@ def list_org(request):
 def home(request):
      user = User.objects.get(username=request.user)
      if(user.profile.user_type=="Buyer"):
+          print("hi")
           return render(request,'app/buyer_home.html')
      else:
           return render(request,'app/home.html')     
@@ -176,6 +232,16 @@ def home(request):
           'page': ''
      }
      return render(request, 'app/home.html', context)
+
+def BuyerIGP(request,pk):
+    org=ORG.objects.get(id=pk)
+    igp=IGP.objects.filter(org=org)
+    return render(request,'app/buyer_orgigps_detail.html',{'org':org, 'igp':igp,'pk':pk})
+
+def SellerIGP(request,pk):
+    org=ORG.objects.get(id=pk)
+    igp=IGP.objects.filter(org=org)
+    return render(request,'app/seller_orgigps_detail.html',{'org':org, 'igp':igp,'pk':pk})
 
 #Method name: orgs
 #Creation Date: 
@@ -215,7 +281,7 @@ class IGPDeleteView(LoginRequiredMixin, DeleteView):
 
 class IGPUpdateView(LoginRequiredMixin, UpdateView):
      model = IGP
-     fields = ['item', 'org', 'itype', 'price']
+     fields = ['item', 'itype', 'price']
      success_url ='/app/igps/'
 
 class ORGListView(ListView):
@@ -227,7 +293,7 @@ class ORGListView(ListView):
 class ORGDetailView(DetailView):
      model = ORG
      orgId = model.id
-     template_name = 'app/orgigps_detail.html'
+     template_name = 'app/seller_orgigps_detail.html'
 
      def get_context_data(self, **kwargs):
           context = super().get_context_data(**kwargs)
@@ -236,16 +302,16 @@ class ORGDetailView(DetailView):
           
 class ORGCreateView(LoginRequiredMixin, CreateView):
      model = ORG
-     fields = ['name', 'desc']
+     fields = ['name', 'desc','location']
 
 class ORGUpdateView(LoginRequiredMixin, UpdateView):
      model = ORG
-     fields = ['name', 'desc']
+     fields = ['name', 'desc','location','mobile_number']
 
 class ORGDeleteView(LoginRequiredMixin, DeleteView):
      model = ORG
      success_url ='/app/orgs/'
-
+'''
 class BuyerIGP(DetailView):
      model = ORG
      orgId = model.id
@@ -253,4 +319,4 @@ class BuyerIGP(DetailView):
      def get_context_data(self, **kwargs):
           context = super().get_context_data(**kwargs)
           context['org_igps']=IGP.objects.filter(org_id=self.object.id)
-          return context
+          return context'''
