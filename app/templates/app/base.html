@@ -149,14 +149,15 @@ to sell and gather information online.
 					{% if user.is_authenticated %}
 						<a class="nav-item nav-link" href="{% url 'igp-create' %}" style = "color:#ffffff"><i class="fa fa-fw fa-plus"></i>New IGP</a>
 
-						<a class="nav-item nav-link" href="{% url 'org-create' %}" style = "color:#ffffff"><i class="fa fa-fw fa-plus"></i>New Org</a>
-
 						<a class="nav-item nav-link" href="{%  url 'profile' %}" style = "color:#ffffff"><i class="fa fa-fw fa-user"></i>Profile</a>
+						
+						<a class="nav-item nav-link" href="{% url 'org-create' %}" style = "color:#ffffff"><i class="fa fa-fw fa-plus"></i>New ORG</a>
 						<a class="nav-item nav-link" href="{% url 'logout' %}" style = "color:#ffffff">Logout</a>
 					{% else %}
+					
 						<a class="nav-item nav-link" href="{% url 'login' %}" style = "color:#ffffff"><i class="fa fa-fw fa-user"></i>Login</a>
 
-						<a class="nav-item nav-link" href="{%  url 'register' %}" style = "color:#ffffff">Register</a>
+						<a class="nav-item nav-link" href="{%  url 'signup' %}" style = "color:#ffffff">Register</a>
 					{% endif %}
 				</div>
 			</div>

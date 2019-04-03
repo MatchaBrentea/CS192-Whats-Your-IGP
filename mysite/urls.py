@@ -44,10 +44,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls import url,include
 from django.urls import include, path
 from users import views as user_views
 from django.contrib.auth import views as auth_views
-
+app_name='ratings'
 urlpatterns = [
     path('app/', include('app.urls')),
     path('', include('app.urls')),
@@ -56,4 +57,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),
+    url(r'^ratings/', include('star_ratings.urls',namespace='ratings')),
 ]

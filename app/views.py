@@ -67,80 +67,190 @@
 
 from django.shortcuts import render
 from django.views.generic import (
-	ListView,
-	DetailView,
-	CreateView,
-	UpdateView,
-	DeleteView
-	)
+     ListView,
+     DetailView,
+     CreateView,
+     UpdateView,
+     DeleteView
+     )
 from .models import IGP, ORG
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.shortcuts import render, redirect, redirect,get_object_or_404
+from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from .forms import *
+#Method name: signup
+#Creation Date: February 18,2019
+#Purpose of routine: Signup a user that is not yet registered
+#Calling arguments: request
+#Required Files/Database table: forms.py,signup.html and models.py,home.html
+#Return value: user information saved.
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            if(form.cleaned_data.get('user_type')!="select2"):
+                 user.profile.user_type = "Seller"
+            user.profile.college= form.cleaned_data.get('college')
+            user.profile.mobile_number = form.cleaned_data.get('mobile_number')
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            return redirect('app-home')                 
+    else:
+        form = SignUpForm()
+    return render(request, 'app/signup.html', {'form': form})
+#Method name: memsignup
+#Creation Date: February 18,2019
+#Purpose of routine: Calls a form after signing up as a seller for additional org info
+#Calling arguments: request
+#Required Files/Database table: forms.py,memsignup.html and models.py
+#Return value: orgmember information saved.
+def memsignup(request):
+    if request.method == 'POST':
+               form = Orgform(request.POST)
+               if form.is_valid():
+                 user = form.save()
+                 user.refresh_from_db()  # load the profile instance created by the signal
+                 user.profile.org=form.cleaned_data.get('org_name')
+                 user.profile.location=form.cleaned_data.get('location')
+                 user.save()
+                 raw_password = form.cleaned_data.get('password1')
+                 user = authenticate(username=user.username, password=raw_password)
+                 login(request, user)
+                 return redirect('app-home')
+    else:
+                         form=Orgform()
+    return render(request, 'app/memsignup.html', {'form': form})
+#Method name: profile
+#Creation Date: February 18,2019
+#Purpose of routine: renders the template for profile of a buyer
+#Calling arguments: request
+#Required Files/Database table: buyer_profile.html and models.py
+#Return value: Display profile information of user
+def profile(request):
+     return render(request,'app/buyer_profile.html')
+#Method name: list_igp
+#Creation Date: February 18,2019
+#Purpose of routine: renders the template for list of igp of a buyer
+#Calling arguments: request
+#Required Files/Database table: buyer_igp.html and models.py
+#Return value: Displays list of available igp
+def list_igp(request):
+     context = {
+          'orgs': ORG.objects.all(),
+          'igps': IGP.objects.all(),
+     }
+     return render(request,'app/buyer_igp.html', context)
+#Method name: list_org
+#Creation Date: February 18,2019
+#Purpose of routine: renders the template for list of org of a buyer
+#Calling arguments: request
+#Required Files/Database table: buyer_igp.html and models.py
+#Return value: Displays list of available org
+def list_org(request):
+     context = {
+          'orgs': ORG.objects.all(),
+     }
+     return render(request,'app/buyer_org.html', context)
 
+#Method name: home
+#Creation Date: 
+#Purpose of routine: renders the template for home for a user
+#Calling arguments: request
+#Required Files/Database table: buyer_home.html,home.html and models.py
+#Return value: Displays home depending on the user type.
+@login_required(login_url='login')
 def home(request):
-	context = {
-		'page': ''
-	}
-	return render(request, 'app/home.html', context)
- 
+     user = User.objects.get(username=request.user)
+     if(user.profile.user_type=="Buyer"):
+          return render(request,'app/buyer_home.html')
+     else:
+          return render(request,'app/home.html')     
+     context = {
+          'page': ''
+     }
+     return render(request, 'app/home.html', context)
+
+#Method name: orgs
+#Creation Date: 
+#Purpose of routine: renders the template for list of orgs for a seller
+#Calling arguments: request
+#Required Files/Database table: org.html and models.py
+#Return value: Displays list of registered orgs
 def orgs(request):
-	context = {
-		'orgs': ORG.objects.all(),
-		'page': 'ORGS'
-	}
-	return render(request, 'app/org.html', context)
+     context = {
+          'orgs': ORG.objects.all(),
+          'page': 'ORGS'
+     }
+     return render(request, 'app/org.html', context)
 
 def orgigps(request):
-	context = {
-		'orgs': ORG.objects.all(),
-		'igps': IGP.objects.all(),
-		'page': org.name
-	}
-	return render(request, 'app/orgigps.html', context)
+     context = {
+          'orgs': ORG.objects.all(),
+          'igps': IGP.objects.all(),
+          'page': org.name
+     }
+     return render(request, 'app/orgigps.html', context)
 
-	
 class IGPListView(ListView):
-	model = IGP
-	template_name = 'app/igp.html'
-	context_object_name = 'igp'
-	ordering = ['-date_posted']
+     model = IGP
+     template_name = 'app/igp.html'
+     context_object_name = 'igp'
+     ordering = ['-date_posted']
 
 class IGPCreateView(LoginRequiredMixin, CreateView):
-	model = IGP
-	fields = ['item', 'org', 'itype', 'price']
+     model = IGP
+     fields = ['item', 'org', 'itype', 'price']
+     success_url ='/app/igps/'
 
 class IGPDeleteView(LoginRequiredMixin, DeleteView):
-	model = IGP
-	success_url ='/app/igps/'
+     model = IGP
+     success_url ='/app/igps/'
 
 class IGPUpdateView(LoginRequiredMixin, UpdateView):
-	model = IGP
-	fields = ['item', 'org', 'itype', 'price']
+     model = IGP
+     fields = ['item', 'org', 'itype', 'price']
+     success_url ='/app/igps/'
 
 class ORGListView(ListView):
-	model = ORG
-	template_name = 'app/org.html'
-	context_object_name = 'orgs'
-	ordering = ['name']
+     model = ORG
+     template_name = 'app/org.html'
+     context_object_name = 'orgs'
+     ordering = ['name']
 
 class ORGDetailView(DetailView):
-	model = ORG
-	orgId = model.id
-	template_name = 'app/orgigps_detail.html'
+     model = ORG
+     orgId = model.id
+     template_name = 'app/orgigps_detail.html'
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		context['org_igps']=IGP.objects.filter(org_id=self.object.id)
-
-		return context
-
+     def get_context_data(self, **kwargs):
+          context = super().get_context_data(**kwargs)
+          context['org_igps']=IGP.objects.filter(org_id=self.object.id)
+          return context
+          
 class ORGCreateView(LoginRequiredMixin, CreateView):
-	model = ORG
-	fields = ['name', 'desc']
+     model = ORG
+     fields = ['name', 'desc']
 
 class ORGUpdateView(LoginRequiredMixin, UpdateView):
-	model = ORG
-	fields = ['name', 'desc']
+     model = ORG
+     fields = ['name', 'desc']
 
 class ORGDeleteView(LoginRequiredMixin, DeleteView):
-	model = ORG
-	success_url ='/app/orgs/'
+     model = ORG
+     success_url ='/app/orgs/'
+
+class BuyerIGP(DetailView):
+     model = ORG
+     orgId = model.id
+     template_name = 'app/buyer_orgigps_detail.html'
+     def get_context_data(self, **kwargs):
+          context = super().get_context_data(**kwargs)
+          context['org_igps']=IGP.objects.filter(org_id=self.object.id)
+          return context

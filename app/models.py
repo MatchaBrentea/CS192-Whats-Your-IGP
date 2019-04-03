@@ -32,18 +32,40 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 # Create your models here.
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    college = models.CharField(max_length=30, blank=True)
+    mobile_number = models.CharField(max_length=13, blank=True)
+    user_type = models.CharField(max_length=50, blank=False, default="Buyer")
+    
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
 
 class ORG(models.Model):
 	name = models.CharField(max_length=100, unique=True)
 	desc = models.TextField()
-
+	rating = models.ForeignKey('star_ratings.Rating', on_delete=models.CASCADE,default=6)
+	#def save(self, *args, **kwargs):
+	#	if not self.rating:
+	#		self.rating = star_ratings.Rating.objects.create()
+	#	super(Post, self).save(*args, **kwargs)
 	def __str__(self):
 		return self.name
-
 	def get_absolute_url(self):
 		return reverse('app-orgs')
+
+class OrgMember(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	org = models.ForeignKey(ORG, on_delete=models.CASCADE)
+	location = models.CharField(max_length=30, blank=True)
 
 class IGP(models.Model):
 	item = models.CharField(max_length=100)
@@ -51,9 +73,15 @@ class IGP(models.Model):
 	itype = models.CharField(max_length=100)
 	price = models.FloatField(null=True, blank=True, default=None)
 	date_posted = models.DateTimeField(default=timezone.now)
-
+	rating = models.ForeignKey('star_ratings.Rating',on_delete=models.CASCADE,default=6)
+	
 	def __str__(self):
 		return self.item
-
 	def get_absolute_url(self):
 		return reverse('app-igps')
+		
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete="models.CASCADE")
+    date_of_birth = models.DateField()
+    def __str__(self):
+        return self.user.username

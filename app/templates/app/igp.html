@@ -78,7 +78,7 @@ to sell and gather information online.
 {% block content %}
 
 	{% for i in igp %}
-
+{% load ratings %}
 	<!DOCTYPE html>
 	<html>
 	<style>
@@ -86,11 +86,6 @@ to sell and gather information online.
 		background-image:url({% static "app/loginback.jpg" %});
 		background-size: cover;
 		background-attachment: fixed;
-	}
-
-	.text{
-		font-size:15px;
-		color:white;
 	}
 
 	</style>
@@ -104,11 +99,13 @@ to sell and gather information online.
 					<a class="mr-2" href="{% url 'orgigps_detail' i.org.id %}" style="color:#ffd40d;font-size:20px">{{ i.org }}</a>
 				</div>
 				<h2 style="color:white; font-size:50px">{{ i.item }}</h2>
-				<p class="article-content" style="font-size:20px"><i>{{ i.itype }}</i></p>
-				<small class="text">{{ i.date_posted|date }}</small>
-				<p class="article-content" style="font-size:20px">{{ i.price }} PHP</p>
+				{% if user.is_authenticated %}
 				<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'igp-update' i.id %}" style="background-color:#ff9b0d;font-size:10px">Update</a>
 				<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'igp-delete' i.id %}" style="font-size:10px ">Delete</a>
+				{% endif %}
+				<p class="article-content" style="font-size:30px">{{ i.price }} PHP</p>
+				<p class="article-content" style="font-size:20px"><i>{{ i.itype }}</i></p>
+				<small class="text-muted">{{ i.date_posted|date }}</small>
 			</div>
 		</article>
 	</html>
