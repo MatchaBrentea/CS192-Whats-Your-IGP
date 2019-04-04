@@ -102,7 +102,7 @@ to sell and gather information online.
 					
 					<a class="mr-2" href="{% url 'buyer_orgigps_detail' i.org.id %}" style="color:#ffd40d;font-size:20px">{{ i.org }}</a>
 				</div>
-				<h2 style="color:white; font-size:50px">{{ i.item }}</h2>
+				<a class="mr-2" href="{% url 'igpdetail' i.id %}" style="color:#ffd40d;font-size:20px">{{ i.item }}</a>
 
 				<p class="article-content" style="font-size:30px">{{ i.price }} PHP</p>
 				<p class="article-content" style="font-size:20px"><i>{{ i.itype }}</i></p>

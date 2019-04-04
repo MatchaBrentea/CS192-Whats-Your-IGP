@@ -83,7 +83,7 @@ CODE HISTORY:
 			<article class="media content-section">
 				<div class="media-body">
 					
-					<p class="article-content">{{ i.item }} PHP</p>
+					<a class="mr-2" href="{% url 'seller_igpdetail' i.id %}" style="color:#ffd40d;font-size:20px">{{ i.item }}</a>
 					<p class="article-content">{{ i.price }} PHP</p>
 					<p class="article-content" ><i>{{ i.itype }}</i></p>
 					<small class="text-muted">{{ i.date_posted|date }}</small>

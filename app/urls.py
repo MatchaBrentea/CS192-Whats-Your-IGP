@@ -68,6 +68,9 @@ from django.conf.urls import url,include
 
 #from mysite.core import views as core_views
 from django.urls import path
+from django.conf.urls.static import static
+
+from django.conf import settings
 from .views import (
 	IGPListView,  
 	IGPCreateView,
@@ -81,12 +84,13 @@ from .views import (
 	ORGDeleteView
 	)
 from . import views
- 
+
 urlpatterns = [
 	#path('', views.signup, name="signup"),
     #path('', views.login_view, name='home'),
     #path('orgs/<int:pk>/', BuyerIGP.as_view(), name='buyer_orgigps_detail'),
-    path('orgs/<int:pk>/', views.BuyerIGP, name='buyer_orgigps_detail'),
+    path('seller/orgs/<int:pk>/', views.SellerIGP, name='seller_orgigps_detail'),
+    path('buyer/orgs/<int:pk>/', views.BuyerIGP, name='buyer_orgigps_detail'),
     path('', views.home, name='app-home'),
     path('igps/new/', IGPCreateView.as_view(), name='igp-create'),
     path('orgs/new/', ORGCreateView.as_view(), name='org-create'),
@@ -101,10 +105,11 @@ urlpatterns = [
     path('orgs/', ORGListView.as_view(), name='app-orgs'),
     path('buyer/igps/',views.list_igp,name='list_igp'),
     path('buyer/orgs/',views.list_org,name='list_org'),
-    path('buyer/org/',views.orgprofile,name='org_profile'),
     path('buyer/profile/',views.profile,name='buyer_profile'),
+    path('org/profile/',views.orgprofile,name='org_profile'),
     path('create/igp/',views.createigp,name='createigp'),
     path('org/igp/',views.my_igp,name='my_igp'),
+    path('igp/detail/<int:pk>/',views.igpdetail,name='igpdetail'),
+    path('seller/igp/detail/<int:pk>/',views.seller_igpdetail,name='seller_igpdetail'),
     
-]
-  
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

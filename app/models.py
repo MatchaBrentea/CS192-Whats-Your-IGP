@@ -66,25 +66,16 @@ class ORG(models.Model):
 	def get_absolute_url(self):
 		return reverse('app-orgs')
 
-class OrgMember(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	org = models.ForeignKey(ORG, on_delete=models.CASCADE)
-	location = models.CharField(max_length=30, blank=True)
-
 class IGP(models.Model):
 	item = models.CharField(max_length=100)
 	org = models.ForeignKey(ORG, on_delete=models.CASCADE)
 	itype = models.CharField(max_length=100)
 	price = models.FloatField(null=True, blank=True, default=None)
 	date_posted = models.DateTimeField(default=timezone.now)
+	image = models.ImageField(upload_to='images', blank=True)
+	view = models.IntegerField(default=0)
 	rating = models.ForeignKey('star_ratings.Rating',on_delete=models.CASCADE,default=6)
 	def __str__(self):
 		return self.item
 	def get_absolute_url(self):
 		return reverse('app-igps')
-		
-class UserProfile(models.Model):
-    user = models.ForeignKey(User, on_delete="models.CASCADE")
-    date_of_birth = models.DateField()
-    def __str__(self):
-        return self.user.username

@@ -96,11 +96,8 @@ to sell and gather information online.
 		<br/><br/><br/>
 		<article class="media content-section" style="color:white;background-color: rgba(0,0,0,0.4)">
 			<div class="media-body">
-				<div class="article-metadata" >
-					
-					<a class="mr-2" href="{% url 'buyer_orgigps_detail' i.org.id %}" style="color:#ffd40d;font-size:20px">{{ i.org }}</a>
-				</div>
-				<h2 style="color:white; font-size:50px">{{ i.item }}</h2>
+		
+				<a class="mr-2" href="{% url 'seller_igpdetail' i.id %}" style="color:#ffd40d;font-size:20px">{{ i.item }}</a>
 
 				<p class="article-content" style="font-size:30px">{{ i.price }} PHP</p>
 				<p class="article-content" style="font-size:20px"><i>{{ i.itype }}</i></p>

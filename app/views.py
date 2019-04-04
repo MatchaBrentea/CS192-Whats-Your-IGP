@@ -81,6 +81,7 @@ from django.shortcuts import render, redirect, redirect,get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import *
+from django.db.models import F
 #Method name: signup
 #Creation Date: February 18,2019
 #Purpose of routine: Signup a user that is not yet registered
@@ -101,7 +102,6 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            print(user.profile.user_type)
             if(user.profile.user_type=="Buyer"):
                 return redirect('app-home')
             else:
@@ -127,7 +127,6 @@ def memsignup(request):
                  org.desc=form.cleaned_data.get('description')
                  org.location=form.cleaned_data.get('location')
                  org.mobile_number=form.cleaned_data.get('mobile_number')
-                 print(user.username)
                  org.save()
                  return redirect('app-home')
     else:
@@ -224,7 +223,6 @@ def list_org(request):
 def home(request):
      user = User.objects.get(username=request.user)
      if(user.profile.user_type=="Buyer"):
-          print("hi")
           return render(request,'app/buyer_home.html')
      else:
           return render(request,'app/home.html')     
@@ -242,6 +240,23 @@ def SellerIGP(request,pk):
     org=ORG.objects.get(id=pk)
     igp=IGP.objects.filter(org=org)
     return render(request,'app/seller_orgigps_detail.html',{'org':org, 'igp':igp,'pk':pk})
+
+def igpdetail(request,pk):
+    igp=IGP.objects.get(id=pk)
+    igp.view = igp.view + 1
+    igp.save(update_fields=['view'])
+    return render(request,'app/igpdetail.html',{'igp':igp})
+
+def seller_igpdetail(request,pk):
+    user = User.objects.get(username=request.user)
+    igp=IGP.objects.get(id=pk)
+    print("HI")
+    if(igp.org.user!=user):
+        print("TAMA")
+        igp.view = igp.view + 1
+        igp.save(update_fields=['view'])
+    print("MALI")
+    return render(request,'app/seller_igpdetail.html',{'igp':igp})
 
 #Method name: orgs
 #Creation Date: 
@@ -293,7 +308,7 @@ class ORGListView(ListView):
 class ORGDetailView(DetailView):
      model = ORG
      orgId = model.id
-     template_name = 'app/seller_orgigps_detail.html'
+     template_name = 'app/orgigps_detail.html'
 
      def get_context_data(self, **kwargs):
           context = super().get_context_data(**kwargs)
@@ -311,12 +326,3 @@ class ORGUpdateView(LoginRequiredMixin, UpdateView):
 class ORGDeleteView(LoginRequiredMixin, DeleteView):
      model = ORG
      success_url ='/app/orgs/'
-'''
-class BuyerIGP(DetailView):
-     model = ORG
-     orgId = model.id
-     template_name = 'app/buyer_orgigps_detail.html'
-     def get_context_data(self, **kwargs):
-          context = super().get_context_data(**kwargs)
-          context['org_igps']=IGP.objects.filter(org_id=self.object.id)
-          return context'''
